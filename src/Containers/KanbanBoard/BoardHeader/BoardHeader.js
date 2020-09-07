@@ -1,5 +1,5 @@
 import React from 'react';
-import BoardHeaderItem from '../../../Components/BoardHeaderItem';
+import BoardItem from '../../../Components/BoardItem';
 import styled from 'styled-components';
 
 const StyledBoardHeader = styled.div`
