@@ -14,7 +14,7 @@ const columnsFromBackEnd = [
       },
       {
         id: uuidv4(),
-        text: 'study',
+        text: 'sleep',
       },
     ],
   },
@@ -34,7 +34,7 @@ const columnsFromBackEnd = [
     items: [
       {
         id: uuidv4(),
-        text: 'eat',
+        text: 'sleep',
       },
     ],
   },
@@ -102,6 +102,9 @@ export default function KanbanBoard() {
   };
 
   const removeColumn = (columnId) => {
+    if (columns.length < 5) {
+      setError('');
+    }
     if (!columns.length) {
       setError('No columns left');
       return;
@@ -113,11 +116,28 @@ export default function KanbanBoard() {
     }
   };
 
+  const updateColumnTitle = (columnId, newTitle) => {
+    let currentColumns = [...columns];
+    let columnToUpdate = currentColumns.find(
+      (column) => column.id === columnId
+    );
+    if (columnToUpdate.title !== newTitle) {
+      columnToUpdate.title = newTitle;
+      setColumns([...currentColumns]);
+    } else {
+      return;
+    }
+  };
+
   return (
     <DragDropContext
       onDragEnd={(result) => onDragEnd(result, columns, setColumns)}
     >
-      <BoardBody columns={columns} removeColumn={removeColumn} />
+      <BoardBody
+        columns={columns}
+        removeColumn={removeColumn}
+        updateColumnTitle={updateColumnTitle}
+      />
       <button onClick={() => addColumn()}>ADD COLUMN</button>
       {error ? error : null}
     </DragDropContext>

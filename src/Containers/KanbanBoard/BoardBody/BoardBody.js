@@ -15,6 +15,7 @@ export default function BoardBody(props) {
         return (
           <div key={column.id}>
             <BoardColumn
+              updateColumnTitle={props.updateColumnTitle}
               removeColumn={props.removeColumn}
               column={column}
               id={id}
