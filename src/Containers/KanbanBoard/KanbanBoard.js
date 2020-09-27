@@ -4,40 +4,21 @@ import { DragDropContext } from 'react-beautiful-dnd';
 import { v4 as uuidv4 } from 'uuid';
 
 const columnsFromBackEnd = [
-  {
-    id: uuidv4(),
-    name: 'Todo',
-    items: [
-      {
-        id: uuidv4(),
-        text: 'eat',
-      },
-      {
-        id: uuidv4(),
-        text: 'sleep',
-      },
-    ],
-  },
-  {
-    id: uuidv4(),
-    name: 'In Progress',
-    items: [
-      {
-        id: uuidv4(),
-        text: 'eat',
-      },
-    ],
-  },
-  {
-    id: uuidv4(),
-    name: 'Done',
-    items: [
-      {
-        id: uuidv4(),
-        text: 'sleep',
-      },
-    ],
-  },
+  // {
+  //   id: uuidv4(),
+  //   name: 'Todo',
+  //   items: [],
+  // },
+  // {
+  //   // id: uuidv4(),
+  //   // name: 'In Progress',
+  //   // items: [],
+  // },
+  // {
+  //   // id: uuidv4(),
+  //   // name: 'Done',
+  //   // items: [],
+  // },
 ];
 
 const onDragEnd = (result, columns, setColumns) => {
@@ -85,30 +66,24 @@ export default function KanbanBoard() {
       setError('Max 5 columns');
       return;
     } else {
+      let currentColumns = [...columns];
       setColumns([
-        ...columns,
+        ...currentColumns,
         {
           id: uuidv4(),
-          name: 'new column',
-          items: [
-            {
-              id: uuidv4(),
-              text: 'eat',
-            },
-          ],
+          name: 'New column',
+          items: [],
         },
       ]);
     }
   };
 
   const removeColumn = (columnId) => {
-    if (columns.length < 5) {
-      setError('');
-    }
     if (!columns.length) {
       setError('No columns left');
       return;
     } else {
+      setError(false);
       let filteredColumns = columns.filter((column) => {
         return column.id !== columnId;
       });
@@ -129,6 +104,19 @@ export default function KanbanBoard() {
     }
   };
 
+  const addItem = (columnId, itemText) => {
+    let currentColumns = [...columns];
+    let columnToUpdate = currentColumns.find(
+      (column) => column.id === columnId
+    );
+    let newItem = {
+      id: uuidv4(),
+      text: itemText,
+    };
+    columnToUpdate.items.push(newItem);
+    setColumns([...currentColumns]);
+  };
+
   return (
     <DragDropContext
       onDragEnd={(result) => onDragEnd(result, columns, setColumns)}
@@ -136,6 +124,7 @@ export default function KanbanBoard() {
       <BoardBody
         columns={columns}
         removeColumn={removeColumn}
+        addItem={addItem}
         updateColumnTitle={updateColumnTitle}
       />
       <button onClick={() => addColumn()}>ADD COLUMN</button>
