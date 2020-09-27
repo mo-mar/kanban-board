@@ -31,29 +31,35 @@ const onDragEnd = (result, columns, setColumns) => {
     const destItems = [...destColumn.items];
     const [removed] = sourceItems.splice(source.index, 1);
     destItems.splice(destination.index, 0, removed);
-    setColumns({
+    setColumns(
       ...columns,
-      [source.droppableId]: {
-        ...sourceColumn,
-        items: sourceItems,
+      {
+        [source.droppableId]: {
+          ...sourceColumn,
+          items: sourceItems,
+        },
       },
-      [destination.droppableId]: {
-        ...destColumn,
-        items: destItems,
-      },
-    });
+      {
+        [destination.droppableId]: {
+          ...destColumn,
+          items: destItems,
+        },
+      }
+    );
   } else {
     const column = columns[source.droppableId];
     const copiedItems = [...column.items];
     const [removed] = copiedItems.splice(source.index, 1);
     copiedItems.splice(destination.index, 0, removed);
-    setColumns({
+    setColumns([
       ...columns,
-      [source.droppableId]: {
-        ...column,
-        items: copiedItems,
+      {
+        [source.droppableId]: {
+          ...column,
+          items: copiedItems,
+        },
       },
-    });
+    ]);
   }
 };
 
@@ -127,7 +133,7 @@ export default function KanbanBoard() {
         addItem={addItem}
         updateColumnTitle={updateColumnTitle}
       />
-      <button onClick={() => addColumn()}>ADD COLUMN</button>
+      <button onClick={addColumn}>ADD COLUMN</button>
       {error ? error : null}
     </DragDropContext>
   );
