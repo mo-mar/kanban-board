@@ -31,35 +31,29 @@ const onDragEnd = (result, columns, setColumns) => {
     const destItems = [...destColumn.items];
     const [removed] = sourceItems.splice(source.index, 1);
     destItems.splice(destination.index, 0, removed);
-    setColumns(
+    setColumns({
       ...columns,
-      {
-        [source.droppableId]: {
-          ...sourceColumn,
-          items: sourceItems,
-        },
+      [source.droppableId]: {
+        ...sourceColumn,
+        items: sourceItems,
       },
-      {
-        [destination.droppableId]: {
-          ...destColumn,
-          items: destItems,
-        },
-      }
-    );
+      [destination.droppableId]: {
+        ...destColumn,
+        items: destItems,
+      },
+    });
   } else {
     const column = columns[source.droppableId];
     const copiedItems = [...column.items];
     const [removed] = copiedItems.splice(source.index, 1);
     copiedItems.splice(destination.index, 0, removed);
-    setColumns([
+    setColumns({
       ...columns,
-      {
-        [source.droppableId]: {
-          ...column,
-          items: copiedItems,
-        },
+      [source.droppableId]: {
+        ...column,
+        items: copiedItems,
       },
-    ]);
+    });
   }
 };
 
@@ -68,59 +62,50 @@ export default function KanbanBoard() {
   const [error, setError] = useState('');
 
   const addColumn = () => {
-    if (columns.length === 5) {
+    if (Object.keys(columns).length === 5) {
       setError('Max 5 columns');
       return;
     } else {
-      let currentColumns = [...columns];
-      setColumns([
-        ...currentColumns,
-        {
-          id: uuidv4(),
+      setColumns({
+        ...columns,
+        [uuidv4()]: {
           name: 'New column',
           items: [],
         },
-      ]);
+      });
     }
   };
 
   const removeColumn = (columnId) => {
-    if (!columns.length) {
+    debugger;
+    if (!Object.keys(columns).length) {
       setError('No columns left');
       return;
     } else {
-      setError(false);
-      let filteredColumns = columns.filter((column) => {
-        return column.id !== columnId;
-      });
-      setColumns([...filteredColumns]);
+      setError('');
+      delete columns[columnId];
+      setColumns({ ...columns });
     }
   };
 
   const updateColumnTitle = (columnId, newTitle) => {
-    let currentColumns = [...columns];
-    let columnToUpdate = currentColumns.find(
-      (column) => column.id === columnId
-    );
+    let columnToUpdate = columns[columnId];
     if (columnToUpdate.title !== newTitle) {
       columnToUpdate.title = newTitle;
-      setColumns([...currentColumns]);
+      setColumns({ ...columns });
     } else {
       return;
     }
   };
 
   const addItem = (columnId, itemText) => {
-    let currentColumns = [...columns];
-    let columnToUpdate = currentColumns.find(
-      (column) => column.id === columnId
-    );
+    let columnToUpdate = columns[columnId];
     let newItem = {
       id: uuidv4(),
       text: itemText,
     };
     columnToUpdate.items.push(newItem);
-    setColumns([...currentColumns]);
+    setColumns({ ...columns });
   };
 
   return (

@@ -71,13 +71,13 @@ export default function BoardColumn(props) {
 
   const saveTitle = (event) => {
     event.preventDefault();
-    props.updateColumnTitle(props.column.id, columnTitle);
+    props.updateColumnTitle(props.id, columnTitle);
     setIsEditingTitle(!isEditingTitle);
   };
 
   const saveItemText = (event) => {
     event.preventDefault();
-    props.addItem(props.column.id, itemText);
+    props.addItem(props.id, itemText);
     toggleIsAddingItemText();
   };
 
@@ -118,7 +118,7 @@ export default function BoardColumn(props) {
                 ref={provided.innerRef}
               >
                 <StyledRemoveColumnButton
-                  onClick={() => props.removeColumn(props.column.id)}
+                  onClick={() => props.removeColumn(props.id)}
                 >
                   X
                 </StyledRemoveColumnButton>

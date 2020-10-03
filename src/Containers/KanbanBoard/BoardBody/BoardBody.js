@@ -13,7 +13,7 @@ export default function BoardBody(props) {
     <StyledBoardBody>
       {Object.entries(props.columns).map(([id, column]) => {
         return (
-          <div key={column.id}>
+          <div key={id}>
             <BoardColumn
               updateColumnTitle={props.updateColumnTitle}
               removeColumn={props.removeColumn}
