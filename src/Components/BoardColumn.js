@@ -137,7 +137,6 @@ export default function BoardColumn(props) {
                 <StyledItemTextForm>
                   <input
                     type="text"
-                    value={itemText}
                     onChange={(event) => setItemText(event.target.value)}
                   />
                   <button
