@@ -3,24 +3,6 @@ import BoardBody from './BoardBody/BoardBody';
 import { DragDropContext } from 'react-beautiful-dnd';
 import { v4 as uuidv4 } from 'uuid';
 
-const columnsFromBackEnd = [
-  // {
-  //   id: uuidv4(),
-  //   name: 'Todo',
-  //   items: [],
-  // },
-  // {
-  //   // id: uuidv4(),
-  //   // name: 'In Progress',
-  //   // items: [],
-  // },
-  // {
-  //   // id: uuidv4(),
-  //   // name: 'Done',
-  //   // items: [],
-  // },
-];
-
 const onDragEnd = (result, columns, setColumns) => {
   if (!result.destination) return;
   const { source, destination } = result;
@@ -58,7 +40,7 @@ const onDragEnd = (result, columns, setColumns) => {
 };
 
 export default function KanbanBoard() {
-  const [columns, setColumns] = useState(columnsFromBackEnd);
+  const [columns, setColumns] = useState({});
   const [error, setError] = useState('');
 
   const addColumn = () => {
