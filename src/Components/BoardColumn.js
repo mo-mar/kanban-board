@@ -12,7 +12,7 @@ const StyledColumnHeader = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
-  height: 87px;
+  height: 90px;
 `;
 
 const StyledTitleForm = styled.form`
@@ -34,9 +34,10 @@ const StyledColumnBody = styled.div`
   width: 250px;
   height: 500px;
   overflow-y: auto;
-  border: 2px solid lightblue;
+  border: 4px solid lightblue;
   border-radius: 5px 5px;
   margin-right: 10px;
+  margin-top: 20px;
   background-color: ${(props) =>
     props.snapshot.isDraggingOver ? 'lightblue' : 'white'};
 `;
@@ -53,11 +54,21 @@ const StyledAddItemButton = styled.button`
   margin-bottom: 20px;
 `;
 
-const StyledColumnTitle = styled.h2``;
+const StyledColumnTitle = styled.h2`
+  color: teal;
+`;
+
+const StyledTitleErrorField = styled.div`
+  width: 100%;
+  color: red;
+  margin-top: -25px;
+  text-align: center;
+`;
 
 export default function BoardColumn(props) {
-  const [columnTitle, setColumnTitle] = useState(props.column.name);
+  const [columnTitle, setColumnTitle] = useState(props.column.title);
   const [isEditingTitle, setIsEditingTitle] = useState(false);
+  const [titleError, setTitleError] = useState('');
   const [isAddingItemText, setIsAddingItemText] = useState(false);
   const [itemText, setItemText] = useState('');
 
@@ -69,8 +80,17 @@ export default function BoardColumn(props) {
     setIsAddingItemText(!isAddingItemText);
   };
 
+  const cancelEditingTitle = () => {
+    toggleIsEditingColumnTitle();
+    setColumnTitle(props.column.title);
+  };
+
   const saveTitle = (event) => {
     event.preventDefault();
+    if (!columnTitle) {
+      setTitleError('Please enter a valid column title.');
+      return;
+    }
     props.updateColumnTitle(props.id, columnTitle);
     setIsEditingTitle(!isEditingTitle);
   };
@@ -85,80 +105,72 @@ export default function BoardColumn(props) {
     <Droppable droppableId={`${props.id}`} key={props.id}>
       {(provided, snapshot) => {
         return (
-          <Fragment>
-            <StyledContainer>
-              <div>
-                {isEditingTitle ? (
-                  <StyledTitleForm onSubmit={(event) => saveTitle(event)}>
-                    <input
-                      type="text"
-                      value={columnTitle}
-                      onChange={(event) => setColumnTitle(event.target.value)}
-                    />
-                    <button
-                      type="button"
-                      onClick={() => toggleIsEditingColumnTitle()}
-                    >
-                      Cancel
-                    </button>
-                    <button type="submit">Save</button>
-                  </StyledTitleForm>
-                ) : (
-                  <StyledColumnHeader>
-                    <StyledColumnTitle>{columnTitle}</StyledColumnTitle>
-                    <button onClick={() => toggleIsEditingColumnTitle()}>
-                      Edit title
-                    </button>
-                  </StyledColumnHeader>
-                )}
-              </div>
-              <StyledColumnBody
-                snapshot={snapshot}
-                {...provided.droppableProps}
-                ref={provided.innerRef}
-              >
-                <StyledRemoveColumnButton
-                  onClick={() => props.removeColumn(props.id)}
-                >
-                  X
-                </StyledRemoveColumnButton>
-
-                {provided.placeholder}
-                {props.column.items.map((item, index) => {
-                  return (
-                    <div key={item.id}>
-                      <BoardItem id={item.id} index={index} text={item.text} />
-                    </div>
-                  );
-                })}
-              </StyledColumnBody>
-
-              {isAddingItemText ? (
-                <StyledItemTextForm>
+          <StyledContainer>
+            {isEditingTitle ? (
+              <Fragment>
+                <StyledTitleForm onSubmit={(event) => saveTitle(event)}>
                   <input
                     type="text"
-                    onChange={(event) => setItemText(event.target.value)}
+                    value={columnTitle}
+                    onChange={(event) => setColumnTitle(event.target.value)}
                   />
-                  <button
-                    type="button"
-                    onClick={() => toggleIsAddingItemText()}
-                  >
+                  <button type="button" onClick={() => cancelEditingTitle()}>
                     Cancel
                   </button>
-                  <button
-                    type="submit"
-                    onClick={(event) => saveItemText(event)}
-                  >
-                    Save
-                  </button>
-                </StyledItemTextForm>
-              ) : (
-                <StyledAddItemButton onClick={() => toggleIsAddingItemText()}>
-                  Add Item
-                </StyledAddItemButton>
-              )}
-            </StyledContainer>
-          </Fragment>
+                  <button type="submit">Save</button>
+                </StyledTitleForm>
+                {titleError ? (
+                  <StyledTitleErrorField>{titleError}</StyledTitleErrorField>
+                ) : null}
+              </Fragment>
+            ) : (
+              <StyledColumnHeader>
+                <StyledColumnTitle>{columnTitle}</StyledColumnTitle>
+                <button onClick={() => toggleIsEditingColumnTitle()}>
+                  Edit title
+                </button>
+              </StyledColumnHeader>
+            )}
+            <StyledColumnBody
+              snapshot={snapshot}
+              {...provided.droppableProps}
+              ref={provided.innerRef}
+            >
+              <StyledRemoveColumnButton
+                onClick={() => props.removeColumn(props.id)}
+              >
+                X
+              </StyledRemoveColumnButton>
+
+              {provided.placeholder}
+              {props.column.items.map((item, index) => {
+                return (
+                  <div key={item.id}>
+                    <BoardItem id={item.id} index={index} text={item.text} />
+                  </div>
+                );
+              })}
+            </StyledColumnBody>
+
+            {isAddingItemText ? (
+              <StyledItemTextForm>
+                <input
+                  type="text"
+                  onChange={(event) => setItemText(event.target.value)}
+                />
+                <button type="button" onClick={() => toggleIsAddingItemText()}>
+                  Cancel
+                </button>
+                <button type="submit" onClick={(event) => saveItemText(event)}>
+                  Save
+                </button>
+              </StyledItemTextForm>
+            ) : (
+              <StyledAddItemButton onClick={() => toggleIsAddingItemText()}>
+                Add Item
+              </StyledAddItemButton>
+            )}
+          </StyledContainer>
         );
       }}
     </Droppable>

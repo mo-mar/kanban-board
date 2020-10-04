@@ -2,6 +2,26 @@ import React, { useState } from 'react';
 import BoardBody from './BoardBody/BoardBody';
 import { DragDropContext } from 'react-beautiful-dnd';
 import { v4 as uuidv4 } from 'uuid';
+import styled from 'styled-components';
+
+const StyledAddColumnButton = styled.button`
+  padding: 8px 14px;
+  color: white;
+  background: teal;
+  border-radius: 3px 3px 3px;
+  font-weight: 700;
+  border: 1px solid black;
+  font-size: 16px;
+  box-shadow: 0 5px #999;
+  &:hover {
+    color: teal;
+    background: white;
+  }
+  &:active {
+    transform: translateY(4px);
+    box-shadow: 0 2px #999;
+  }
+`;
 
 const onDragEnd = (result, columns, setColumns) => {
   if (!result.destination) return;
@@ -51,7 +71,7 @@ export default function KanbanBoard() {
       setColumns({
         ...columns,
         [uuidv4()]: {
-          name: 'New column',
+          title: 'New column',
           items: [],
         },
       });
@@ -59,22 +79,23 @@ export default function KanbanBoard() {
   };
 
   const removeColumn = (columnId) => {
-    debugger;
     if (!Object.keys(columns).length) {
       setError('No columns left');
       return;
     } else {
       setError('');
-      delete columns[columnId];
-      setColumns({ ...columns });
+      let newColumns = { ...columns };
+      delete newColumns[columnId];
+      setColumns({ ...newColumns });
     }
   };
 
   const updateColumnTitle = (columnId, newTitle) => {
-    let columnToUpdate = columns[columnId];
+    let newColumns = { ...columns };
+    let columnToUpdate = newColumns[columnId];
     if (columnToUpdate.title !== newTitle) {
       columnToUpdate.title = newTitle;
-      setColumns({ ...columns });
+      setColumns({ ...newColumns });
     } else {
       return;
     }
@@ -100,7 +121,9 @@ export default function KanbanBoard() {
         addItem={addItem}
         updateColumnTitle={updateColumnTitle}
       />
-      <button onClick={addColumn}>ADD COLUMN</button>
+      <StyledAddColumnButton onClick={addColumn}>
+        ADD COLUMN
+      </StyledAddColumnButton>
       {error ? error : null}
     </DragDropContext>
   );
