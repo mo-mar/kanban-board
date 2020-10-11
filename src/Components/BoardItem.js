@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 import styled from 'styled-components';
 
@@ -17,14 +17,26 @@ const StyledBoardItem = styled.div`
   align-items: center;
   font-weight: 600;
   font-size: 18px;
+  position: relative;
+`;
+
+const StyledTrashButton = styled.i`
+  position: absolute;
+  font-size: 18px;
+  top: 2px;
+  right: 5px;
+  cursor: default;
+  &:hover {
+    color: teal;
+  }
 `;
 
 export default function BoardItem(props) {
   return (
-    <div>
-      <Draggable key={props.id} draggableId={`${props.id}`} index={props.index}>
-        {(provided, snapshot) => {
-          return (
+    <Draggable key={props.id} draggableId={`${props.id}`} index={props.index}>
+      {(provided, snapshot) => {
+        return (
+          <Fragment>
             <StyledBoardItem
               snapshot={snapshot}
               ref={provided.innerRef}
@@ -36,10 +48,14 @@ export default function BoardItem(props) {
             >
               {provided.placeholder}
               {props.text}
+              <StyledTrashButton
+                onClick={() => props.removeItem(props.columnId, props.id)}
+                className="fas fa-trash-alt"
+              ></StyledTrashButton>
             </StyledBoardItem>
-          );
-        }}
-      </Draggable>
-    </div>
+          </Fragment>
+        );
+      }}
+    </Draggable>
   );
 }

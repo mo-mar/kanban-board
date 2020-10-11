@@ -6,4 +6,4 @@ This is a simple kanboard board built with [Create React App](https://github.com
 
 - Run `npm install`.
 
-- Start using the board! All your items will be saved localStorage.
+- Start using the board! All your items will be saved to localStorage.

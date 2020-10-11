@@ -117,6 +117,15 @@ export default function KanbanBoard() {
     setColumns({ ...columns });
   };
 
+  const removeItem = (columnId, itemId) => {
+    let columnToUpdate = columns[columnId];
+    let newItems = columnToUpdate.items.filter((item) => {
+      return item.id !== itemId;
+    });
+    columnToUpdate.items = newItems;
+    setColumns({ ...columns });
+  };
+
   return (
     <DragDropContext
       onDragEnd={(result) => onDragEnd(result, columns, setColumns)}
@@ -129,6 +138,7 @@ export default function KanbanBoard() {
         removeColumn={removeColumn}
         addItem={addItem}
         updateColumnTitle={updateColumnTitle}
+        removeItem={removeItem}
       />
 
       {error ? error : null}

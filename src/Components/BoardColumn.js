@@ -146,7 +146,13 @@ export default function BoardColumn(props) {
               {props.column.items.map((item, index) => {
                 return (
                   <div key={item.id}>
-                    <BoardItem id={item.id} index={index} text={item.text} />
+                    <BoardItem
+                      id={item.id}
+                      index={index}
+                      text={item.text}
+                      columnId={props.id}
+                      removeItem={props.removeItem}
+                    />
                   </div>
                 );
               })}

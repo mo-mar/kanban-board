@@ -18,6 +18,7 @@ export default function BoardBody(props) {
               updateColumnTitle={props.updateColumnTitle}
               removeColumn={props.removeColumn}
               addItem={props.addItem}
+              removeItem={props.removeItem}
               column={column}
               id={id}
             ></BoardColumn>
