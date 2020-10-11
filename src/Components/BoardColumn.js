@@ -4,8 +4,8 @@ import { Droppable } from 'react-beautiful-dnd';
 import styled from 'styled-components';
 
 const StyledContainer = styled.div`
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-rows: 75px 1fr 40px auto;
 `;
 
 const StyledColumnHeader = styled.div`
@@ -13,6 +13,12 @@ const StyledColumnHeader = styled.div`
   justify-content: space-around;
   align-items: center;
   height: 90px;
+  i {
+    font-size: 20px;
+  }
+  i:hover {
+    color: teal;
+  }
 `;
 
 const StyledTitleForm = styled.form`
@@ -27,6 +33,7 @@ const StyledItemTextForm = styled.form`
   justify-content: space-around;
   align-items: center;
   margin: 6px 0;
+  height: 40px;
 `;
 
 const StyledColumnBody = styled.div`
@@ -43,19 +50,17 @@ const StyledColumnBody = styled.div`
 `;
 
 const StyledRemoveColumnButton = styled.button`
-  display: block;
-  margin-left: auto;
-  margin-bottom: 20px;
+  display: inline-block;
+  margin: 10px auto;
 `;
 
 const StyledAddItemButton = styled.button`
   display: block;
   margin: 8px auto;
-  margin-bottom: 20px;
 `;
 
 const StyledColumnTitle = styled.h2`
-  color: teal;
+  font-weight: 700;
 `;
 
 const StyledTitleErrorField = styled.div`
@@ -126,9 +131,10 @@ export default function BoardColumn(props) {
             ) : (
               <StyledColumnHeader>
                 <StyledColumnTitle>{columnTitle}</StyledColumnTitle>
-                <button onClick={() => toggleIsEditingColumnTitle()}>
-                  Edit title
-                </button>
+                <i
+                  onClick={() => toggleIsEditingColumnTitle()}
+                  className="fas fa-edit"
+                ></i>
               </StyledColumnHeader>
             )}
             <StyledColumnBody
@@ -136,12 +142,6 @@ export default function BoardColumn(props) {
               {...provided.droppableProps}
               ref={provided.innerRef}
             >
-              <StyledRemoveColumnButton
-                onClick={() => props.removeColumn(props.id)}
-              >
-                X
-              </StyledRemoveColumnButton>
-
               {provided.placeholder}
               {props.column.items.map((item, index) => {
                 return (
@@ -167,9 +167,14 @@ export default function BoardColumn(props) {
               </StyledItemTextForm>
             ) : (
               <StyledAddItemButton onClick={() => toggleIsAddingItemText()}>
-                Add Item
+                <i className="fas fa-plus"></i>
               </StyledAddItemButton>
             )}
+            <StyledRemoveColumnButton
+              onClick={() => props.removeColumn(props.id)}
+            >
+              Delete column
+            </StyledRemoveColumnButton>
           </StyledContainer>
         );
       }}

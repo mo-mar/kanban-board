@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import BoardBody from './BoardBody/BoardBody';
 import { DragDropContext } from 'react-beautiful-dnd';
 import { v4 as uuidv4 } from 'uuid';
@@ -60,8 +60,14 @@ const onDragEnd = (result, columns, setColumns) => {
 };
 
 export default function KanbanBoard() {
-  const [columns, setColumns] = useState({});
+  const [columns, setColumns] = useState(
+    JSON.parse(window.localStorage.getItem('columns'))
+  );
   const [error, setError] = useState('');
+
+  useEffect(() => {
+    window.localStorage.setItem('columns', JSON.stringify(columns));
+  }, [columns]);
 
   const addColumn = () => {
     if (Object.keys(columns).length === 5) {
@@ -115,15 +121,16 @@ export default function KanbanBoard() {
     <DragDropContext
       onDragEnd={(result) => onDragEnd(result, columns, setColumns)}
     >
+      <StyledAddColumnButton onClick={addColumn}>
+        ADD COLUMN
+      </StyledAddColumnButton>
       <BoardBody
         columns={columns}
         removeColumn={removeColumn}
         addItem={addItem}
         updateColumnTitle={updateColumnTitle}
       />
-      <StyledAddColumnButton onClick={addColumn}>
-        ADD COLUMN
-      </StyledAddColumnButton>
+
       {error ? error : null}
     </DragDropContext>
   );
