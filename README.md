@@ -2,8 +2,8 @@ This is a simple kanboard board built with [Create React App](https://github.com
 
 ## To set it up:
 
-### Clone the Repo.
+- Clone the Repo.
 
-### Run `npm install`.
+- Run `npm install`.
 
-### Start using the board! All your items will be saved localStorage.
+- Start using the board! All your items will be saved localStorage.
