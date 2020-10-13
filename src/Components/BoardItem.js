@@ -23,7 +23,7 @@ const StyledBoardItem = styled.div`
 const StyledTrashButton = styled.i`
   position: absolute;
   font-size: 16px;
-  top: 4px;
+  top: 5px;
   right: 5px;
   cursor: default;
   &:hover {
