@@ -1,11 +1,17 @@
 import React from 'react';
 import BoardColumn from '../../../Components/BoardColumn';
 import styled from 'styled-components';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 const StyledBoardBody = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  width: 90%;
+  padding: 16px 32px;
+  max-width: 1550px;
+  @media (max-width: 800px) {
+    justify-content: flex-start;
+    overflow-x: auto;
+  }
 `;
 
 export default function BoardBody(props) {

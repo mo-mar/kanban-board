@@ -5,16 +5,16 @@ import styled from 'styled-components';
 
 const StyledContainer = styled.div`
   display: grid;
-  grid-template-rows: 75px 1fr 40px auto;
+  grid-template-rows: 50px 1fr 40px auto;
 `;
 
 const StyledColumnHeader = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
-  height: 90px;
   i {
-    font-size: 20px;
+    font-size: 18px;
+    cursor: pointer;
   }
   i:hover {
     color: teal;
@@ -22,10 +22,11 @@ const StyledColumnHeader = styled.div`
 `;
 
 const StyledTitleForm = styled.form`
+  height: 50px;
   display: flex;
+  flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  height: 87px;
 `;
 
 const StyledItemTextForm = styled.form`
@@ -49,11 +50,6 @@ const StyledColumnBody = styled.div`
     props.snapshot.isDraggingOver ? 'lightblue' : 'white'};
 `;
 
-const StyledRemoveColumnButton = styled.button`
-  display: inline-block;
-  margin: 10px auto;
-`;
-
 const StyledAddItemButton = styled.button`
   display: block;
   margin: 8px auto;
@@ -61,12 +57,13 @@ const StyledAddItemButton = styled.button`
 
 const StyledColumnTitle = styled.h2`
   font-weight: 700;
+  font-size: 20px;
 `;
 
 const StyledTitleErrorField = styled.div`
   width: 100%;
   color: red;
-  margin-top: -25px;
+  margin-top: 8px;
   text-align: center;
 `;
 
@@ -74,6 +71,7 @@ export default function BoardColumn(props) {
   const [columnTitle, setColumnTitle] = useState(props.column.title);
   const [isEditingTitle, setIsEditingTitle] = useState(false);
   const [titleError, setTitleError] = useState('');
+  const [itemTextError, setItemTextError] = useState('');
   const [isAddingItemText, setIsAddingItemText] = useState(false);
   const [itemText, setItemText] = useState('');
 
@@ -102,6 +100,10 @@ export default function BoardColumn(props) {
 
   const saveItemText = (event) => {
     event.preventDefault();
+    if (!itemText) {
+      setItemTextError('Tasks cannot be blank.');
+      return;
+    }
     props.addItem(props.id, itemText);
     toggleIsAddingItemText();
   };
@@ -114,19 +116,21 @@ export default function BoardColumn(props) {
             {isEditingTitle ? (
               <Fragment>
                 <StyledTitleForm onSubmit={(event) => saveTitle(event)}>
-                  <input
-                    type="text"
-                    value={columnTitle}
-                    onChange={(event) => setColumnTitle(event.target.value)}
-                  />
-                  <button type="button" onClick={() => cancelEditingTitle()}>
-                    Cancel
-                  </button>
-                  <button type="submit">Save</button>
+                  <div>
+                    <input
+                      type="text"
+                      value={columnTitle}
+                      onChange={(event) => setColumnTitle(event.target.value)}
+                    />
+                    <button type="button" onClick={() => cancelEditingTitle()}>
+                      Cancel
+                    </button>
+                    <button type="submit">Save</button>
+                  </div>
+                  {titleError ? (
+                    <StyledTitleErrorField>{titleError}</StyledTitleErrorField>
+                  ) : null}
                 </StyledTitleForm>
-                {titleError ? (
-                  <StyledTitleErrorField>{titleError}</StyledTitleErrorField>
-                ) : null}
               </Fragment>
             ) : (
               <StyledColumnHeader>
@@ -134,6 +138,10 @@ export default function BoardColumn(props) {
                 <i
                   onClick={() => toggleIsEditingColumnTitle()}
                   className="fas fa-edit"
+                ></i>
+                <i
+                  onClick={() => props.removeColumn(props.id)}
+                  className="fas fa-trash"
                 ></i>
               </StyledColumnHeader>
             )}
@@ -176,11 +184,9 @@ export default function BoardColumn(props) {
                 <i className="fas fa-plus"></i>
               </StyledAddItemButton>
             )}
-            <StyledRemoveColumnButton
-              onClick={() => props.removeColumn(props.id)}
-            >
-              Delete column
-            </StyledRemoveColumnButton>
+            {itemTextError ? (
+              <StyledTitleErrorField>{itemTextError}</StyledTitleErrorField>
+            ) : null}
           </StyledContainer>
         );
       }}
