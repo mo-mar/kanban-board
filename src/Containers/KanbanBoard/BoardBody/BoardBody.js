@@ -17,20 +17,22 @@ const StyledBoardBody = styled.div`
 export default function BoardBody(props) {
   return (
     <StyledBoardBody>
-      {Object.entries(props.columns).map(([id, column]) => {
-        return (
-          <div key={id}>
-            <BoardColumn
-              updateColumnTitle={props.updateColumnTitle}
-              removeColumn={props.removeColumn}
-              addItem={props.addItem}
-              removeItem={props.removeItem}
-              column={column}
-              id={id}
-            ></BoardColumn>
-          </div>
-        );
-      })}
+      {props.columns
+        ? Object.entries(props.columns).map(([id, column]) => {
+            return (
+              <div key={id}>
+                <BoardColumn
+                  updateColumnTitle={props.updateColumnTitle}
+                  removeColumn={props.removeColumn}
+                  addItem={props.addItem}
+                  removeItem={props.removeItem}
+                  column={column}
+                  id={id}
+                ></BoardColumn>
+              </div>
+            );
+          })
+        : null}
     </StyledBoardBody>
   );
 }
