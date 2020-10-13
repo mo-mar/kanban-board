@@ -22,8 +22,8 @@ const StyledBoardItem = styled.div`
 
 const StyledTrashButton = styled.i`
   position: absolute;
-  font-size: 18px;
-  top: 2px;
+  font-size: 16px;
+  top: 4px;
   right: 5px;
   cursor: default;
   &:hover {
@@ -50,7 +50,7 @@ export default function BoardItem(props) {
               {props.text}
               <StyledTrashButton
                 onClick={() => props.removeItem(props.columnId, props.id)}
-                className="fas fa-trash-alt"
+                className="fas fa-trash"
               ></StyledTrashButton>
             </StyledBoardItem>
           </Fragment>
