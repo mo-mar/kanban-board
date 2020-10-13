@@ -70,7 +70,7 @@ export default function KanbanBoard() {
   }, [columns]);
 
   const addColumn = () => {
-    if (Object.keys(columns).length === 5) {
+    if (columns && Object.keys(columns).length === 5) {
       setError('Max 5 columns');
       return;
     } else {
@@ -85,7 +85,10 @@ export default function KanbanBoard() {
   };
 
   const removeColumn = (columnId) => {
-    if (!Object.keys(columns).length) {
+    if (!columns) {
+      return;
+    }
+    if (columns && !Object.keys(columns).length) {
       setError('No columns left');
       return;
     } else {
