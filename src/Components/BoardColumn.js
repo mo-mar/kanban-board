@@ -51,8 +51,15 @@ const StyledColumnBody = styled.div`
 `;
 
 const StyledAddItemButton = styled.button`
+  border: none;
+  background: none;
   display: block;
   margin: 8px auto;
+  font-size: 16px;
+  &:hover {
+    color: teal;
+    cursor: pointer;
+  }
 `;
 
 const StyledColumnTitle = styled.h2`

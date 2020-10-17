@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 import styled from 'styled-components';
 
@@ -36,24 +36,22 @@ export default function BoardItem(props) {
     <Draggable key={props.id} draggableId={`${props.id}`} index={props.index}>
       {(provided, snapshot) => {
         return (
-          <Fragment>
-            <StyledBoardItem
-              snapshot={snapshot}
-              ref={provided.innerRef}
-              {...provided.draggableProps}
-              {...provided.dragHandleProps}
-              style={{
-                ...provided.draggableProps.style,
-              }}
-            >
-              {provided.placeholder}
-              {props.text}
-              <StyledTrashButton
-                onClick={() => props.removeItem(props.columnId, props.id)}
-                className="fas fa-trash"
-              ></StyledTrashButton>
-            </StyledBoardItem>
-          </Fragment>
+          <StyledBoardItem
+            snapshot={snapshot}
+            ref={provided.innerRef}
+            {...provided.draggableProps}
+            {...provided.dragHandleProps}
+            style={{
+              ...provided.draggableProps.style,
+            }}
+          >
+            {provided.placeholder}
+            {props.text}
+            <StyledTrashButton
+              onClick={() => props.removeItem(props.columnId, props.id)}
+              className="fas fa-trash"
+            ></StyledTrashButton>
+          </StyledBoardItem>
         );
       }}
     </Draggable>
