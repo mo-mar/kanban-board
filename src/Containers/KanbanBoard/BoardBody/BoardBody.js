@@ -5,10 +5,11 @@ import styled from 'styled-components';
 const StyledBoardBody = styled.div`
   display: flex;
   justify-content: center;
-  width: 90%;
+  margin: 0 auto;
+  width: 100%;
   padding: 16px 32px;
-  max-width: 1550px;
-  @media (max-width: 800px) {
+  @media (max-width: 1300px) {
+    width: 60%;
     justify-content: flex-start;
     overflow-x: auto;
   }
