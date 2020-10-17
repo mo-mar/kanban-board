@@ -1,4 +1,6 @@
-This is a simple kanboard board built with [Create React App](https://github.com/facebook/create-react-app) and [React Beautiful DnD](https://github.com/atlassian/react-beautiful-dnd).
+This is a simple kanboard board built with [Create React App](https://github.com/facebook/create-react-app) and [React Beautiful DnD](https://github.com/atlassian/react-beautiful-dnd). It's styled with [Styled Components.](https://styled-components.com/)
+
+[Check out the live site here.](https://the-kanban-board.netlify.app/)
 
 ## To set it up:
 
