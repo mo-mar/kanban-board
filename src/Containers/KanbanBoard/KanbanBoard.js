@@ -7,12 +7,12 @@ import styled from 'styled-components';
 const StyledAddColumnButton = styled.button`
   padding: 8px 14px;
   color: white;
-  background: teal;
+  background: #50a0a0b0;
   border-radius: 3px 3px 3px;
   font-weight: 700;
   border: 1px solid black;
   font-size: 16px;
-  box-shadow: 0 5px #999;
+  box-shadow: 0 3px #999;
   &:hover {
     color: teal;
     background: white;

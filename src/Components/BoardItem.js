@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 const StyledBoardItem = styled.div`
   background-color: ${(props) =>
-    props.snapshot.isDragging ? 'white' : '#d7f9f963'};
+    props.snapshot.isDragging ? 'white' : '#7cd8d83b'};
   padding: 1px;
   border: 1px solid black;
   border-radius: 4px 4px;

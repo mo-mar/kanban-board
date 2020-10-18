@@ -1,32 +1,14 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState } from 'react';
 import BoardItem from '../Components/BoardItem';
+import BoardColumnHeader from '../Components/BoardColumnHeader';
+import ColumnTitleForm from '../Components/ColumnTitleForm';
 import { Droppable } from 'react-beautiful-dnd';
 import styled from 'styled-components';
 
 const StyledContainer = styled.div`
+  margin-right: 12px;
   display: grid;
   grid-template-rows: 50px 1fr 40px auto;
-`;
-
-const StyledColumnHeader = styled.div`
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  i {
-    font-size: 18px;
-    cursor: pointer;
-  }
-  i:hover {
-    color: teal;
-  }
-`;
-
-const StyledTitleForm = styled.form`
-  height: 50px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  align-items: center;
 `;
 
 const StyledItemTextForm = styled.form`
@@ -42,8 +24,8 @@ const StyledColumnBody = styled.div`
   width: 250px;
   height: 500px;
   overflow-y: auto;
-  border: 4px solid lightblue;
-  border-radius: 5px 5px;
+  border: 2px solid #50a0a0b0;
+  border-radius: 3px 3px;
   margin-right: 10px;
   margin-top: 20px;
   background-color: ${(props) =>
@@ -60,11 +42,6 @@ const StyledAddItemButton = styled.button`
     color: teal;
     cursor: pointer;
   }
-`;
-
-const StyledColumnTitle = styled.h2`
-  font-weight: 700;
-  font-size: 20px;
 `;
 
 const StyledTitleErrorField = styled.div`
@@ -121,36 +98,20 @@ export default function BoardColumn(props) {
         return (
           <StyledContainer>
             {isEditingTitle ? (
-              <Fragment>
-                <StyledTitleForm onSubmit={(event) => saveTitle(event)}>
-                  <div>
-                    <input
-                      type="text"
-                      value={columnTitle}
-                      onChange={(event) => setColumnTitle(event.target.value)}
-                    />
-                    <button type="button" onClick={() => cancelEditingTitle()}>
-                      Cancel
-                    </button>
-                    <button type="submit">Save</button>
-                  </div>
-                  {titleError ? (
-                    <StyledTitleErrorField>{titleError}</StyledTitleErrorField>
-                  ) : null}
-                </StyledTitleForm>
-              </Fragment>
+              <ColumnTitleForm
+                saveTitle={saveTitle}
+                columnTitle={columnTitle}
+                setColumnTitle={setColumnTitle}
+                cancelEditingTitle={cancelEditingTitle}
+                titleError={titleError}
+              />
             ) : (
-              <StyledColumnHeader>
-                <StyledColumnTitle>{columnTitle}</StyledColumnTitle>
-                <i
-                  onClick={() => toggleIsEditingColumnTitle()}
-                  className="fas fa-edit"
-                ></i>
-                <i
-                  onClick={() => props.removeColumn(props.id)}
-                  className="fas fa-trash"
-                ></i>
-              </StyledColumnHeader>
+              <BoardColumnHeader
+                columnTitle={columnTitle}
+                toggleIsEditingColumnTitle={toggleIsEditingColumnTitle}
+                removeColumn={props.removeColumn}
+                id={props.id}
+              />
             )}
             <StyledColumnBody
               snapshot={snapshot}
