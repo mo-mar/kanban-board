@@ -9,7 +9,7 @@ const StyledBoardBody = styled.div`
   width: 100%;
   padding: 16px 32px;
   @media (max-width: 1300px) {
-    width: 60%;
+    width: 90%;
     justify-content: flex-start;
     overflow-x: auto;
   }
