@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import BoardItem from '../Components/BoardItem';
 import BoardColumnHeader from '../Components/BoardColumnHeader';
+import AddItemForm from '../Components/ItemForm';
 import ColumnTitleForm from '../Components/ColumnTitleForm';
 import { Droppable } from 'react-beautiful-dnd';
 import styled from 'styled-components';
@@ -9,14 +10,6 @@ const StyledContainer = styled.div`
   margin-right: 12px;
   display: grid;
   grid-template-rows: 50px 1fr 40px auto;
-`;
-
-const StyledItemTextForm = styled.form`
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  margin: 6px 0;
-  height: 40px;
 `;
 
 const StyledColumnBody = styled.div`
@@ -135,18 +128,11 @@ export default function BoardColumn(props) {
             </StyledColumnBody>
 
             {isAddingItemText ? (
-              <StyledItemTextForm>
-                <input
-                  type="text"
-                  onChange={(event) => setItemText(event.target.value)}
-                />
-                <button type="button" onClick={() => toggleIsAddingItemText()}>
-                  Cancel
-                </button>
-                <button type="submit" onClick={(event) => saveItemText(event)}>
-                  Save
-                </button>
-              </StyledItemTextForm>
+              <AddItemForm
+                setItemText={setItemText}
+                toggleIsAddingItemText={toggleIsAddingItemText}
+                saveItemText={saveItemText}
+              />
             ) : (
               <StyledAddItemButton onClick={() => toggleIsAddingItemText()}>
                 <i className="fas fa-plus"></i>
